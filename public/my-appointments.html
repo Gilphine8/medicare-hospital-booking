@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>My Appointments | MEDICARE</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="inner-page">
+    <!-- Navigation -->
+    <header>
+      <h1>MEDICARE</h1>
+      <p>Your Health, Our Priority.</p>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="hospitals.html">Hospitals</a>
+        <a href="doctors.html">Doctors</a>
+        <a href="appointments.html">Book Appointment</a>
+        <a href="my-appointments.html">My Appointments</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="appointment-container">
+      <h2>My Appointments</h2>
+
+      <p>
+        Enter the email address you used when booking to view your appointments.
+      </p>
+
+      <!-- Email Search Form -->
+      <form id="searchForm">
+        <label for="email">Email Address</label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email address"
+          required
+        />
+
+        <button type="submit">Find My Appointments</button>
+      </form>
+
+      <!-- Messages -->
+      <div id="message"></div>
+
+      <!-- Appointment Results -->
+      <section id="appointmentsList"></section>
+    </main>
+
+    <script src="js/my-appointments.js"></script>
+  </body>
+</html>

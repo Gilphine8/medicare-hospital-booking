@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Doctors | MEDICARE</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="home-page">
+    <header>
+      <div class="logo">
+        <h1>MEDICARE<span>.</span></h1>
+        <p>Your Health, Our Priority.</p>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="hospitals.html">Hospitals</a>
+        <a href="doctors.html" class="active">Doctors</a>
+        <a href="appointments.html">Book Appointment</a>
+        <a href="my-appointments.html">My Appointments</a>
+      </nav>
+    </header>
+
+    <section class="hospital-hero">
+      <h2>Meet Our Doctors</h2>
+      <p>
+        Explore our listed healthcare professionals and their specializations.
+      </p>
+    </section>
+
+    <main class="hospitals-container">
+      <div class="section-heading">
+        <span>OUR MEDICAL TEAM</span>
+        <h2>Find a Doctor</h2>
+        <p>Browse doctors by their specialization and hospital.</p>
+      </div>
+
+      <div id="doctorList" class="hospital-grid">
+        <p>Loading doctors...</p>
+      </div>
+    </main>
+
+    <footer>
+      <h2>MEDICARE<span>.</span></h2>
+      <p>Your Health, Our Priority.</p>
+      <p class="copyright">&copy; 2026 MEDICARE. All Rights Reserved.</p>
+      <p class="disclaimer">
+        Educational demonstration project. Doctor information is sample data.
+      </p>
+    </footer>
+
+    <script>
+      const doctorList = document.getElementById("doctorList");
+
+      async function loadDoctors() {
+        try {
+          const response = await fetch(
+            "http://localhost:3001/api/appointments/doctors",
+          );
+
+          if (!response.ok) {
+            throw new Error("Unable to load doctors.");
+          }
+
+          const doctors = await response.json();
+
+          doctorList.innerHTML = "";
+
+          if (doctors.length === 0) {
+            doctorList.innerHTML = "<p>No doctors available.</p>";
+            return;
+          }
+
+          doctors.forEach((doctor) => {
+            const card = document.createElement("div");
+            card.className = "hospital-card";
+
+            const name = document.createElement("h3");
+            name.textContent = doctor.doctor_name;
+
+            const specialization = document.createElement("p");
+            specialization.textContent =
+              "Specialization: " + doctor.specialization;
+
+            const hospital = document.createElement("p");
+            hospital.textContent = doctor.hospital_name;
+
+            const location = document.createElement("p");
+            location.textContent = doctor.location;
+
+            const button = document.createElement("a");
+            button.href = "appointments.html";
+            button.className = "hospital-button";
+            button.textContent = "Book Appointment";
+
+            card.appendChild(name);
+            card.appendChild(specialization);
+            card.appendChild(hospital);
+            card.appendChild(location);
+            card.appendChild(button);
+
+            doctorList.appendChild(card);
+          });
+        } catch (error) {
+          doctorList.innerHTML =
+            "<p>Unable to load doctors. Please check the MEDICARE server.</p>";
+
+          console.error(error);
+        }
+      }
+
+      loadDoctors();
+    </script>
+  </body>
+</html>

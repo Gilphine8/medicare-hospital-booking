@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospitals | MEDICARE</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="home-page">
+    <header>
+      <div class="logo">
+        <h1>MEDICARE<span>.</span></h1>
+        <p>Your Health, Our Priority.</p>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="hospitals.html" class="active">Hospitals</a>
+        <a href="doctors.html">Doctors</a>
+        <a href="appointments.html">Book Appointment</a>
+        <a href="my-appointments.html">My Appointments</a>
+      </nav>
+    </header>
+
+    <section class="hospital-hero">
+      <h2>Find Your Preferred Hospital</h2>
+      <p>
+        Explore healthcare facilities across Kenya and choose where you would
+        like to receive care.
+      </p>
+    </section>
+
+    <main class="hospitals-container">
+      <div class="section-heading">
+        <span>OUR HEALTHCARE NETWORK</span>
+        <h2>Hospitals Across Kenya</h2>
+        <p>Explore available hospitals and their locations.</p>
+      </div>
+
+      <div id="hospitalList" class="hospital-grid">
+        <p>Loading hospitals...</p>
+      </div>
+    </main>
+
+    <footer>
+      <h2>MEDICARE<span>.</span></h2>
+      <p>Your Health, Our Priority.</p>
+      <p class="copyright">&copy; 2026 MEDICARE. All Rights Reserved.</p>
+      <p class="disclaimer">
+        Educational demonstration project. Hospital information is sample data.
+      </p>
+    </footer>
+
+    <script>
+      const hospitalList = document.getElementById("hospitalList");
+
+      async function loadHospitals() {
+        try {
+          const response = await fetch(
+            "http://localhost:3001/api/appointments/hospitals",
+          );
+
+          if (!response.ok) {
+            throw new Error("Unable to load hospitals.");
+          }
+
+          const hospitals = await response.json();
+
+          hospitalList.innerHTML = "";
+
+          if (hospitals.length === 0) {
+            hospitalList.innerHTML = "<p>No hospitals available.</p>";
+            return;
+          }
+
+          hospitals.forEach((hospital) => {
+            const card = document.createElement("div");
+            card.className = "hospital-card";
+
+            const name = document.createElement("h3");
+            name.textContent = hospital.hospital_name;
+
+            const location = document.createElement("p");
+            location.textContent = hospital.location + ", " + hospital.county;
+
+            const type = document.createElement("span");
+            type.className = "hospital-type";
+            type.textContent = hospital.hospital_type;
+
+            const button = document.createElement("a");
+            button.href = "appointments.html";
+            button.className = "hospital-button";
+            button.textContent = "Book Appointment";
+
+            card.appendChild(name);
+            card.appendChild(location);
+            card.appendChild(type);
+            card.appendChild(button);
+
+            hospitalList.appendChild(card);
+          });
+        } catch (error) {
+          hospitalList.innerHTML =
+            "<p>Unable to load hospitals. Please check that the MEDICARE server is running.</p>";
+
+          console.error(error);
+        }
+      }
+
+      loadHospitals();
+    </script>
+  </body>
+</html>
